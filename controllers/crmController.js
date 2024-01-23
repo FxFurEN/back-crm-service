@@ -42,7 +42,7 @@ const loadClientTypes = (req, res) => {
 };
 
 const loadCategories = (req, res) => {
-    client.query('SELECT * FROM CategoryGoods', (err, result) => {
+    client.query('SELECT namecategory FROM CategoryGoods', (err, result) => {
         if (err) {
           console.error(err);
           res.status(500).send('Internal Server Error');
@@ -67,7 +67,7 @@ const addCategory = (req, res) => {
 };
 
 const loadGoods = (req, res) => {
-    client.query('SELECT * FROM Goods', (err, result) => {
+    client.query('SELECT namegood, retailprice, purchaseprice, article, amount, category  FROM GoodsView', (err, result) => {
         if (err) {
           console.error(err);
           res.status(500).send('Internal Server Error');
