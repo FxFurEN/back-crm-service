@@ -23,7 +23,7 @@ const client = new Client({
 
 
 app.get("/loadClientsData", (req, res) => {
-    client.query('SELECT * FROM Clients', (err, result) => {
+    client.query('SELECT clientid, fioclient, phonenumber, mail, typeclient AS TypeClientID FROM ClientData', (err, result) => {
       if (err) {
         console.error(err);
         res.status(500).send('Internal Server Error');
@@ -32,7 +32,7 @@ app.get("/loadClientsData", (req, res) => {
         res.send(clients);
       }
     });
-  });
+});
   
   app.post("/addClient", (req, res) => {
     const { FioClient, PhoneNumber, Mail, TypeClientID } = req.body;
