@@ -1,10 +1,10 @@
-const express = require('express');
+const { Router } = require('express');
 const crmController = require('../controllers/crmController');
+const clientsController = require('../controllers/clients-сontroller');
+const router = new Router();
 
-const router = express.Router();
-
-router.get('/loadClientsData', crmController.loadClientsData);
-router.post('/addClient', crmController.addClient);
+router.get('/loadClientsData', clientsController.loadClientData);
+router.post('/addClient', clientsController.addClient);
 router.get('/loadClientTypes', crmController.loadClientTypes);
 router.get('/loadCategories', crmController.loadCategories);
 router.post('/addCategory', crmController.addCategory);
