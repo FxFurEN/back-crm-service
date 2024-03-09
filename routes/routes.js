@@ -8,5 +8,8 @@ router.get('/clientsData', clientsController.getClients);
 router.post('/createClient', clientsController.createClient);
 
 router.get('/services', servicesController.getServices);
+router.get('/getCategories', servicesController.getCategories);
+router.post('/createCategory', servicesController.createCategory);
+router.post('/createService', servicesController.createService);
 
 module.exports = router;
