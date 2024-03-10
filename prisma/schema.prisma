@@ -45,6 +45,7 @@ model Orders {
     clientId    Int
     serviceId   Int
     employeeId  Int
+    execution   Execution[]
 }
 
 model Employee{
@@ -78,6 +79,8 @@ model Execution{
   executionDate   DateTime  @default(now())
   employee        Employee  @relation(fields: [employeeId], references: [id])
   employeeId      Int
+  order           Orders  @relation(fields: [orderId], references: [id])
+  orderId         Int
   stage           Stage  @relation(fields: [stageId], references: [id])
   stageId         Int
 }
