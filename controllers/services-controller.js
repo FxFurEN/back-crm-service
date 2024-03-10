@@ -66,7 +66,7 @@ const createService = async (req, res) => {
     const newService = await prisma.service.create({
       data: {
         name: service,
-        price: price,
+        price: parseFloat(price),
         category: {
           connect: { id: categoryId },
         },
