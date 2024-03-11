@@ -23,8 +23,6 @@ const createEmployee = async (req, res) => {
       data: {
         initials,
         email,
-        login,
-        password,
         positionId,
       },
     });

@@ -53,8 +53,8 @@ model Employee{
   initials    String    @db.VarChar(255)
   email       String    @db.VarChar(255)
   sign        Boolean   @default(false)
-  login       String    @db.VarChar(255)
-  Password    String    @db.VarChar(255)
+  login       String?    @db.VarChar(255)
+  Password    String?    @db.VarChar(255)
   position    Position  @relation(fields: [positionId], references: [id])
   positionId  Int
   orders      Orders[]
