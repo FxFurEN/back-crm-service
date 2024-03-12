@@ -1,4 +1,5 @@
 const { PrismaClient } = require('@prisma/client');
+const { v4: uuid } = require('uuid');
 const prisma = new PrismaClient();
 
 const getEmployees = async (req, res) => {
@@ -21,6 +22,7 @@ const createEmployee = async (req, res) => {
   try {
     const employee = await prisma.employee.create({
       data: {
+        id: uuid(),
         initials,
         email,
         positionId,
@@ -39,7 +41,7 @@ const deleteEmployee = async (req, res) => {
   try {
     await prisma.employee.delete({
       where: {
-        id: parseInt(id),
+        id: (id),
       },
     });
     res.json({ message: 'Employee deleted successfully' });

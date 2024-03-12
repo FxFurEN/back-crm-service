@@ -1,6 +1,6 @@
 -- CreateTable
 CREATE TABLE "Clients" (
-    "id" SERIAL NOT NULL,
+    "id" TEXT NOT NULL,
     "email" VARCHAR(255),
     "phone" VARCHAR(255),
     "sign" BOOLEAN NOT NULL DEFAULT false,
@@ -13,17 +13,17 @@ CREATE TABLE "Clients" (
 
 -- CreateTable
 CREATE TABLE "Service" (
-    "id" SERIAL NOT NULL,
+    "id" TEXT NOT NULL,
     "name" VARCHAR(255),
-    "price" VARCHAR(255),
-    "categoryId" INTEGER NOT NULL,
+    "price" DECIMAL(10,2),
+    "categoryId" TEXT NOT NULL,
 
     CONSTRAINT "Service_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Category" (
-    "id" SERIAL NOT NULL,
+    "id" TEXT NOT NULL,
     "name" VARCHAR(255),
 
     CONSTRAINT "Category_pkey" PRIMARY KEY ("id")
@@ -31,33 +31,33 @@ CREATE TABLE "Category" (
 
 -- CreateTable
 CREATE TABLE "Orders" (
-    "id" SERIAL NOT NULL,
+    "id" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "comments" VARCHAR(255),
     "leadTime" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "clientId" INTEGER NOT NULL,
-    "serviceId" INTEGER NOT NULL,
-    "employeeId" INTEGER NOT NULL,
+    "clientId" TEXT NOT NULL,
+    "serviceId" TEXT NOT NULL,
+    "employeeId" TEXT NOT NULL,
 
     CONSTRAINT "Orders_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Employee" (
-    "id" SERIAL NOT NULL,
+    "id" TEXT NOT NULL,
     "initials" VARCHAR(255) NOT NULL,
     "email" VARCHAR(255) NOT NULL,
     "sign" BOOLEAN NOT NULL DEFAULT false,
-    "login" VARCHAR(255) NOT NULL,
-    "Password" VARCHAR(255) NOT NULL,
-    "positionId" INTEGER NOT NULL,
+    "login" VARCHAR(255),
+    "Password" VARCHAR(255),
+    "positionId" TEXT NOT NULL,
 
     CONSTRAINT "Employee_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Position" (
-    "id" SERIAL NOT NULL,
+    "id" TEXT NOT NULL,
     "name" VARCHAR(255) NOT NULL,
 
     CONSTRAINT "Position_pkey" PRIMARY KEY ("id")
@@ -65,7 +65,7 @@ CREATE TABLE "Position" (
 
 -- CreateTable
 CREATE TABLE "Stage" (
-    "id" SERIAL NOT NULL,
+    "id" TEXT NOT NULL,
     "name" VARCHAR(255) NOT NULL,
 
     CONSTRAINT "Stage_pkey" PRIMARY KEY ("id")
@@ -73,11 +73,12 @@ CREATE TABLE "Stage" (
 
 -- CreateTable
 CREATE TABLE "Execution" (
-    "id" SERIAL NOT NULL,
+    "id" TEXT NOT NULL,
     "name" VARCHAR(255) NOT NULL,
     "executionDate" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "employeeId" INTEGER NOT NULL,
-    "stageId" INTEGER NOT NULL,
+    "employeeId" TEXT NOT NULL,
+    "orderId" TEXT NOT NULL,
+    "stageId" TEXT NOT NULL,
 
     CONSTRAINT "Execution_pkey" PRIMARY KEY ("id")
 );
@@ -99,6 +100,9 @@ ALTER TABLE "Employee" ADD CONSTRAINT "Employee_positionId_fkey" FOREIGN KEY ("p
 
 -- AddForeignKey
 ALTER TABLE "Execution" ADD CONSTRAINT "Execution_employeeId_fkey" FOREIGN KEY ("employeeId") REFERENCES "Employee"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Execution" ADD CONSTRAINT "Execution_orderId_fkey" FOREIGN KEY ("orderId") REFERENCES "Orders"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Execution" ADD CONSTRAINT "Execution_stageId_fkey" FOREIGN KEY ("stageId") REFERENCES "Stage"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

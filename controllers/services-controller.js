@@ -1,4 +1,5 @@
 const { PrismaClient } = require('@prisma/client');
+const { v4: uuid } = require('uuid');
 const prisma = new PrismaClient();
 
 const getServices = async (req, res) => {
@@ -35,6 +36,7 @@ const createCategory = async (req, res) => {
   try {
     const newCategory = await prisma.category.create({
       data: {
+        id: uuid(),
         name: category,
       },
     });
@@ -58,6 +60,7 @@ const createService = async (req, res) => {
     } else {
       const newCategory = await prisma.category.create({
         data: {
+          id: uuid(),
           name: category,
         },
       });
@@ -65,6 +68,7 @@ const createService = async (req, res) => {
     }
     const newService = await prisma.service.create({
       data: {
+        id: uuid(),
         name: service,
         price: parseFloat(price),
         category: {
