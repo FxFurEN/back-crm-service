@@ -4,6 +4,7 @@ const clientsController = require('../controllers/clients-сontroller');
 const servicesController = require('../controllers/services-controller');
 const positionController = require('../controllers/position-controller');
 const employeeController = require('../controllers/employees-controller');
+const stageController = require('../controllers/stages-controller');
 
 
 router.get('/positions', positionController.getAllPositions);
@@ -22,5 +23,9 @@ router.get('/services', servicesController.getServices);
 router.get('/getCategories', servicesController.getCategories);
 router.post('/createCategory', servicesController.createCategory);
 router.post('/createService', servicesController.createService);
+
+router.get('/stages', stageController.getStages);
+router.post('/stages', stageController.createStage);
+router.put('/stages/:id', stageController.updateStage);
 
 module.exports = router;

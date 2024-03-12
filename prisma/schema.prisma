@@ -70,6 +70,7 @@ model Position {
 model Stage {
   id          String    @id @default(uuid())
   name        String   @db.VarChar(255)
+  color       String    @db.VarChar(255)
   execution   Execution[]
 }
 
