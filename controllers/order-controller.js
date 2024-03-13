@@ -4,7 +4,7 @@ const prisma = new PrismaClient();
 
 const getOrders = async (req, res) => {
   try {
-    const orders = await prisma.order.findMany({
+    const orders = await prisma.orders.findMany({
       include: {
         employee: true,
         service: true,
@@ -22,7 +22,7 @@ const createOrder = async (req, res) => {
   const { comments, leadTime, employeeId, serviceId, clientId } = req.body;
 
   try {
-    const order = await prisma.order.create({
+    const order = await prisma.orders.create({
       data: {
         id: uuid(),
         comments,
