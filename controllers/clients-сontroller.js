@@ -1,4 +1,5 @@
 const { PrismaClient } = require('@prisma/client');
+const { v4: uuid } = require('uuid');
 const prisma = new PrismaClient();
 
 const getClients = async (req, res) => {
@@ -17,6 +18,7 @@ const createClient = async (req, res) => {
   try {
     const client = await prisma.clients.create({
       data: {
+        id: uuid(),
         name,
         phone,
         email,
@@ -31,6 +33,7 @@ const createClient = async (req, res) => {
     res.status(500).json({ error: 'Unable to create client' });
   }
 };
+
 
 module.exports = {
   getClients,

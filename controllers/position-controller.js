@@ -1,4 +1,5 @@
 const { PrismaClient } = require('@prisma/client');
+const { v4: uuid } = require('uuid');
 const prisma = new PrismaClient();
 
 const getAllPositions = async (req, res) => {
@@ -17,6 +18,7 @@ const createPosition = async (req, res) => {
   try {
     const newPosition = await prisma.position.create({
       data: {
+        id: uuid(),
         name,
       },
     });
@@ -34,7 +36,7 @@ const updatePosition = async (req, res) => {
   try {
     const updatedPosition = await prisma.position.update({
       where: {
-        id: parseInt(id),
+        id: (id),
       },
       data: {
         name,
