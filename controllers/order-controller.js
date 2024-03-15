@@ -39,7 +39,28 @@ const createOrder = async (req, res) => {
   }
 };
 
+const getClientOrders = async (req, res) => {
+    const { clientId } = req.params;
+  
+    try {
+      const clientOrders = await prisma.orders.findMany({
+        where: {
+          clientId: clientId,
+        },
+        include: {
+          service: true,
+          employee: true,
+        },
+      });
+      res.json(clientOrders);
+    } catch (error) {
+      console.error('Error fetching client orders:', error);
+      res.status(500).json({ error: 'Unable to fetch client orders' });
+    }
+  };
+
 module.exports = {
   getOrders,
   createOrder,
+  getClientOrders,
 };
