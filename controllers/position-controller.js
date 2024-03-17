@@ -49,8 +49,25 @@ const updatePosition = async (req, res) => {
   }
 };
 
+
+const deletePosition = async (req, res) => {
+  const positionId = req.params.id;
+
+  try {
+    await prisma.position.delete({
+      where: { id: positionId }
+    });
+    
+    res.json({ message: 'Должность успешно удалена' });
+  } catch (error) {
+    console.error('Error deleting position:', error);
+    res.status(500).json({ error: 'Unable to delete position' });
+  }
+};
+
 module.exports = {
   getAllPositions,
   createPosition,
   updatePosition,
+  deletePosition,
 };

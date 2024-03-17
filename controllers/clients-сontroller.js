@@ -16,6 +16,14 @@ const createClient = async (req, res) => {
   const { name, phone, email, initials, unp, isLegalEntity } = req.body;
 
   try {
+    if (isLegalEntity) {
+      const existingClient = await prisma.clients.findUnique({ where: { unp } });
+      if (existingClient) {
+        res.status(400).json({ error: 'УНП уже существует' });
+        return;
+      }
+    }
+
     const client = await prisma.clients.create({
       data: {
         id: uuid(),
@@ -34,8 +42,56 @@ const createClient = async (req, res) => {
   }
 };
 
+const deleteClient = async (req, res) => {
+  const clientId = req.params.id;
+
+  try {
+    await prisma.clients.delete({
+      where: { id: clientId }
+    });
+    
+    res.json({ message: 'Клиент успешно удален' });
+  } catch (error) {
+    console.error('Error deleting client:', error);
+    res.status(500).json({ error: 'Unable to delete client' });
+  }
+};
+
+const updateClient = async (req, res) => {
+  const clientId = req.params.id;
+  const { name, phone, email, initials, unp, isLegalEntity } = req.body;
+
+  try {
+    const existingClient = await prisma.clients.findUnique({ where: { id: clientId } });
+    if (!existingClient) {
+      res.status(404).json({ error: 'Клиент не найден' });
+      return;
+    }
+
+    const updatedClient = await prisma.clients.update({
+      where: { id: clientId },
+      data: {
+        name,
+        phone,
+        email,
+        initials,
+        unp,
+        sign: isLegalEntity
+      },
+    });
+
+    res.json(updatedClient);
+  } catch (error) {
+    console.error('Error updating client:', error);
+    res.status(500).json({ error: 'Unable to update client' });
+  }
+};
+
+
 
 module.exports = {
   getClients,
   createClient,
+  deleteClient,
+  updateClient,
 };

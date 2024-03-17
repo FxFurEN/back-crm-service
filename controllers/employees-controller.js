@@ -51,8 +51,29 @@ const deleteEmployee = async (req, res) => {
   }
 };
 
+const updateEmployee = async (req, res) => {
+    const { id } = req.params;
+    const { initials, email, positionId } = req.body;
+  
+    try {
+      const employee = await prisma.employee.update({
+        where: { id },
+        data: {
+          initials,
+          email,
+          positionId,
+        },
+      });
+      res.json(employee);
+    } catch (error) {
+      console.error('Error updating employee:', error);
+      res.status(500).json({ error: 'Unable to update employee' });
+    }
+  };
+
 module.exports = {
   getEmployees,
   createEmployee,
   deleteEmployee,
+  updateEmployee
 };
