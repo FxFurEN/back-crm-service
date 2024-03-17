@@ -13,7 +13,7 @@ model Clients{
     phone     String?   @db.VarChar(255)
     sign      Boolean   @default(false)
     initials  String?   @db.VarChar(255)
-    unp       String?   @db.VarChar(255)
+    unp       String?   @db.VarChar(255) @unique
     name      String?   @db.VarChar(255)
     orders    Orders[]
 }
@@ -51,9 +51,9 @@ model Orders {
 model Employee{
   id          String    @id @default(uuid())
   initials    String    @db.VarChar(255)
-  email       String    @db.VarChar(255)
+  email       String    @db.VarChar(255) 
   sign        Boolean   @default(false)
-  login       String?    @db.VarChar(255)
+  login       String?    @db.VarChar(255) @unique
   Password    String?    @db.VarChar(255)
   position    Position  @relation(fields: [positionId], references: [id])
   positionId  String
