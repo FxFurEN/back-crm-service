@@ -16,6 +16,12 @@ const createClient = async (req, res) => {
   const { name, phone, email, initials, unp, isLegalEntity } = req.body;
 
   try {
+    const existingClient = await prisma.clients.findUnique({ where: { unp } });
+    if (existingClient) {
+      res.status(400).json({ error: 'УНП уже существует' });
+      return;
+    }
+
     const client = await prisma.clients.create({
       data: {
         id: uuid(),
@@ -33,6 +39,7 @@ const createClient = async (req, res) => {
     res.status(500).json({ error: 'Unable to create client' });
   }
 };
+
 
 
 module.exports = {
