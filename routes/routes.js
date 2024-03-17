@@ -11,6 +11,7 @@ const orderController = require('../controllers/order-controller');
 router.get('/positions', positionController.getAllPositions);
 router.post('/createPosition', positionController.createPosition);
 router.put('/positions/:id', positionController.updatePosition);
+router.delete('/positions/:id', positionController.deletePosition);
 
 router.get('/employees', employeeController.getEmployees);
 router.post('/createEmployee', employeeController.createEmployee);
