@@ -16,7 +16,7 @@ router.delete('/positions/:id', positionController.deletePosition);
 router.get('/employees', employeeController.getEmployees);
 router.post('/createEmployee', employeeController.createEmployee);
 router.delete('/employees/:id', employeeController.deleteEmployee);
-
+router.put('/updateEmployee/:id', employeeController.updateEmployee);
 
 router.get('/clientsData', clientsController.getClients);
 router.post('/createClient', clientsController.createClient);
