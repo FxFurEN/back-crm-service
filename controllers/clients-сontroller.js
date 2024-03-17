@@ -57,10 +57,41 @@ const deleteClient = async (req, res) => {
   }
 };
 
+const updateClient = async (req, res) => {
+  const clientId = req.params.id;
+  const { name, phone, email, initials, unp, isLegalEntity } = req.body;
+
+  try {
+    const existingClient = await prisma.clients.findUnique({ where: { id: clientId } });
+    if (!existingClient) {
+      res.status(404).json({ error: 'Клиент не найден' });
+      return;
+    }
+
+    const updatedClient = await prisma.clients.update({
+      where: { id: clientId },
+      data: {
+        name,
+        phone,
+        email,
+        initials,
+        unp,
+        sign: isLegalEntity
+      },
+    });
+
+    res.json(updatedClient);
+  } catch (error) {
+    console.error('Error updating client:', error);
+    res.status(500).json({ error: 'Unable to update client' });
+  }
+};
+
 
 
 module.exports = {
   getClients,
   createClient,
   deleteClient,
+  updateClient,
 };
