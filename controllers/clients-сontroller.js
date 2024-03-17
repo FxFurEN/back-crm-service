@@ -42,9 +42,25 @@ const createClient = async (req, res) => {
   }
 };
 
+const deleteClient = async (req, res) => {
+  const clientId = req.params.id;
+
+  try {
+    await prisma.clients.delete({
+      where: { id: clientId }
+    });
+    
+    res.json({ message: 'Клиент успешно удален' });
+  } catch (error) {
+    console.error('Error deleting client:', error);
+    res.status(500).json({ error: 'Unable to delete client' });
+  }
+};
+
 
 
 module.exports = {
   getClients,
   createClient,
+  deleteClient,
 };

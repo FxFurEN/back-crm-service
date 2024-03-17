@@ -19,7 +19,7 @@ router.delete('/employees/:id', employeeController.deleteEmployee);
 
 router.get('/clientsData', clientsController.getClients);
 router.post('/createClient', clientsController.createClient);
-
+router.delete('/deleteClient/:id', clientsController.deleteClient);
 
 router.get('/services', servicesController.getServices);
 router.get('/getCategories', servicesController.getCategories);
