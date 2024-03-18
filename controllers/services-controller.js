@@ -89,18 +89,26 @@ const updateCategory = async (req, res) => {
   const { name } = req.body;
 
   try {
+    const existingCategory = await prisma.category.findUnique({ where: { id: categoryId } });
+    if (!existingCategory) {
+      res.status(404).json({ error: 'Категория не найдена' });
+      return;
+    }
+
     const updatedCategory = await prisma.category.update({
       where: { id: categoryId },
       data: {
-        name: name
+        name
       },
     });
+
     res.json(updatedCategory);
   } catch (error) {
     console.error('Error updating category:', error);
-    res.status(500).json({ error: 'Unable to update category' });
+    res.status(500).json({ error: 'Не удалось обновить категорию' });
   }
 };
+
 
 
 module.exports = {
