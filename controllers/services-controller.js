@@ -84,10 +84,29 @@ const createService = async (req, res) => {
 };
 
 
+const updateCategory = async (req, res) => {
+  const categoryId = req.params.id;
+  const { name } = req.body;
+
+  try {
+    const updatedCategory = await prisma.category.update({
+      where: { id: categoryId },
+      data: {
+        name: name
+      },
+    });
+    res.json(updatedCategory);
+  } catch (error) {
+    console.error('Error updating category:', error);
+    res.status(500).json({ error: 'Unable to update category' });
+  }
+};
+
 
 module.exports = {
   getServices,
   getCategories,
   createCategory,
   createService,
+  updateCategory,
 };

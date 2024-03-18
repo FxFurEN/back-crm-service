@@ -27,6 +27,7 @@ router.get('/services', servicesController.getServices);
 router.get('/getCategories', servicesController.getCategories);
 router.post('/createCategory', servicesController.createCategory);
 router.post('/createService', servicesController.createService);
+router.put('/updateCategory/:id', servicesController.updateCategory);
 
 router.get('/stages', stageController.getStages);
 router.post('/stages', stageController.createStage);
