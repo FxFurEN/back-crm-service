@@ -6,6 +6,7 @@ const positionController = require('../controllers/position-controller');
 const employeeController = require('../controllers/employees-controller');
 const stageController = require('../controllers/stages-controller');
 const orderController = require('../controllers/order-controller');
+const reportsController = require('../controllers/reports-controller');
 
 
 router.get('/positions', positionController.getAllPositions);
@@ -39,5 +40,12 @@ router.put('/stages/:id', stageController.updateStage);
 router.get('/orders', orderController.getOrders);
 router.post('/orders', orderController.createOrder);
 router.get('/client/:clientId/orders', orderController.getClientOrders);
+
+router.get('/ordersByCategory', reportsController.getOrdersByCategory);
+router.get('/completedOrdersByEmployee', reportsController.getCompletedOrdersByEmployee);
+router.get('/clientsWithMostOrders', reportsController.getClientsWithMostOrders);
+router.get('/orderStages', reportsController.getOrderStages);
+router.get('/averageOrderCompletionTime', reportsController.getAverageOrderCompletionTime);
+
 
 module.exports = router;
