@@ -29,6 +29,7 @@ router.post('/createCategory', servicesController.createCategory);
 router.post('/createService', servicesController.createService);
 router.put('/updateCategory/:id', servicesController.updateCategory);
 router.delete('/deleteCategory/:id', servicesController.deleteCategory);
+router.put('/updateService/:id', servicesController.updateService);
 
 router.get('/stages', stageController.getStages);
 router.post('/stages', stageController.createStage);

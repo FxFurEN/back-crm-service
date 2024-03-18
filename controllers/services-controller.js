@@ -125,6 +125,53 @@ const deleteCategory = async (req, res) => {
   }
 };
 
+
+const updateService = async (req, res) => {
+  const serviceId = req.params.id;
+  const { name, price, category } = req.body;
+
+  try {
+    const existingService = await prisma.service.findUnique({ where: { id: serviceId } });
+    if (!existingService) {
+      res.status(404).json({ error: 'Услуга не найдена' });
+      return;
+    }
+
+    const existingCategory = await prisma.category.findFirst({
+      where: { name: category },
+    });
+
+    let categoryId;
+    if (existingCategory) {
+      categoryId = existingCategory.id;
+    } else {
+      const newCategory = await prisma.category.create({
+        data: {
+          id: uuid(),
+          name: category,
+        },
+      });
+      categoryId = newCategory.id;
+    }
+
+    const updatedService = await prisma.service.update({
+      where: { id: serviceId },
+      data: {
+        name,
+        price: parseFloat(price),
+        category: {
+          connect: { id: categoryId },
+        },
+      },
+    });
+
+    res.json(updatedService);
+  } catch (error) {
+    console.error('Error updating service:', error);
+    res.status(500).json({ error: 'Unable to update service' });
+  }
+};
+
 module.exports = {
   getServices,
   getCategories,
@@ -132,4 +179,5 @@ module.exports = {
   createService,
   updateCategory,
   deleteCategory, 
+  updateService
 }
