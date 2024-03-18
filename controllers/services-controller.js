@@ -172,6 +172,26 @@ const updateService = async (req, res) => {
   }
 };
 
+const deleteService = async (req, res) => {
+  const serviceId = req.params.id;
+
+  try {
+    const existingService = await prisma.service.findUnique({ where: { id: serviceId } });
+    if (!existingService) {
+      res.status(404).json({ error: 'Услуга не найдена' });
+      return;
+    }
+
+    await prisma.service.delete({ where: { id: serviceId } });
+
+    res.json({ message: 'Услуга успешно удалена' });
+  } catch (error) {
+    console.error('Error deleting service:', error);
+    res.status(500).json({ error: 'Не удалось удалить услугу' });
+  }
+};
+
+
 module.exports = {
   getServices,
   getCategories,
@@ -179,5 +199,6 @@ module.exports = {
   createService,
   updateCategory,
   deleteCategory, 
-  updateService
+  updateService,
+  deleteService
 }
