@@ -110,6 +110,20 @@ const updateCategory = async (req, res) => {
 };
 
 
+const deleteCategory = async (req, res) => {
+  const categoryId = req.params.id;
+
+  try {
+    await prisma.category.delete({
+      where: { id: categoryId },
+    });
+
+    res.json({ message: 'Категория успешно удалена' });
+  } catch (error) {
+    console.error('Error deleting category:', error);
+    res.status(500).json({ error: 'Не удалось удалить категорию' });
+  }
+};
 
 module.exports = {
   getServices,
@@ -117,4 +131,5 @@ module.exports = {
   createCategory,
   createService,
   updateCategory,
-};
+  deleteCategory, 
+}
