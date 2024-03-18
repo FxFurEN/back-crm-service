@@ -128,7 +128,7 @@ const deleteCategory = async (req, res) => {
 
 const updateService = async (req, res) => {
   const serviceId = req.params.id;
-  const { name, price, category } = req.body;
+  const { service, price, category } = req.body;
 
   try {
     const existingService = await prisma.service.findUnique({ where: { id: serviceId } });
@@ -157,7 +157,7 @@ const updateService = async (req, res) => {
     const updatedService = await prisma.service.update({
       where: { id: serviceId },
       data: {
-        name,
+        name: service,
         price: parseFloat(price),
         category: {
           connect: { id: categoryId },
@@ -171,6 +171,7 @@ const updateService = async (req, res) => {
     res.status(500).json({ error: 'Unable to update service' });
   }
 };
+
 
 const deleteService = async (req, res) => {
   const serviceId = req.params.id;
