@@ -9,7 +9,8 @@ const getOrdersByCategory = async (req, res) => {
           include: {
             category: true
           }
-        }
+        },
+        client: true 
       }
     });
     res.json(ordersByCategory);
@@ -18,6 +19,7 @@ const getOrdersByCategory = async (req, res) => {
     res.status(500).json({ error: 'Unable to fetch orders by category' });
   }
 };
+
 
 const getCompletedOrdersByEmployee = async (req, res) => {
   try {
