@@ -19,13 +19,14 @@ const getOrders = async (req, res) => {
 };
 
 const createOrder = async (req, res) => {
-  const { comments, leadTime, employeeId, serviceId, clientId } = req.body;
+  const { comments, leadTime, createdAt, employeeId, serviceId, clientId } = req.body;
 
   try {
     const order = await prisma.orders.create({
       data: {
         id: uuid(),
         comments,
+        createdAt,
         leadTime,
         employeeId,
         serviceId,
