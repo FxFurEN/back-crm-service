@@ -84,10 +84,122 @@ const createService = async (req, res) => {
 };
 
 
+const updateCategory = async (req, res) => {
+  const categoryId = req.params.id;
+  const { name } = req.body;
+
+  try {
+    const existingCategory = await prisma.category.findUnique({ where: { id: categoryId } });
+    if (!existingCategory) {
+      res.status(404).json({ error: 'Категория не найдена' });
+      return;
+    }
+
+    const updatedCategory = await prisma.category.update({
+      where: { id: categoryId },
+      data: {
+        name
+      },
+    });
+
+    res.json(updatedCategory);
+  } catch (error) {
+    console.error('Error updating category:', error);
+    res.status(500).json({ error: 'Не удалось обновить категорию' });
+  }
+};
+
+
+const deleteCategory = async (req, res) => {
+  const categoryId = req.params.id;
+
+  try {
+    await prisma.category.delete({
+      where: { id: categoryId },
+    });
+
+    res.json({ message: 'Категория успешно удалена' });
+  } catch (error) {
+    console.error('Error deleting category:', error);
+    res.status(500).json({ error: 'Не удалось удалить категорию' });
+  }
+};
+
+
+const updateService = async (req, res) => {
+  const serviceId = req.params.id;
+  const { service, price, category } = req.body;
+
+  try {
+    const existingService = await prisma.service.findUnique({ where: { id: serviceId } });
+    if (!existingService) {
+      res.status(404).json({ error: 'Услуга не найдена' });
+      return;
+    }
+
+    const existingCategory = await prisma.category.findFirst({
+      where: { name: category },
+    });
+
+    let categoryId;
+    if (existingCategory) {
+      categoryId = existingCategory.id;
+    } else {
+      const newCategory = await prisma.category.create({
+        data: {
+          id: uuid(),
+          name: category,
+        },
+      });
+      categoryId = newCategory.id;
+    }
+
+    const updatedService = await prisma.service.update({
+      where: { id: serviceId },
+      data: {
+        name: service,
+        price: parseFloat(price),
+        category: {
+          connect: { id: categoryId },
+        },
+      },
+    });
+
+    res.json(updatedService);
+  } catch (error) {
+    console.error('Error updating service:', error);
+    res.status(500).json({ error: 'Unable to update service' });
+  }
+};
+
+
+const deleteService = async (req, res) => {
+  const serviceId = req.params.id;
+
+  try {
+    const existingService = await prisma.service.findUnique({ where: { id: serviceId } });
+    if (!existingService) {
+      res.status(404).json({ error: 'Услуга не найдена' });
+      return;
+    }
+
+    await prisma.service.delete({ where: { id: serviceId } });
+
+    res.json({ message: 'Услуга успешно удалена' });
+  } catch (error) {
+    console.error('Error deleting service:', error);
+    res.status(500).json({ error: 'Не удалось удалить услугу' });
+  }
+};
+
 
 module.exports = {
   getServices,
   getCategories,
   createCategory,
   createService,
-};
+  updateCategory,
+  deleteCategory, 
+  updateService,
+  deleteService
+}
